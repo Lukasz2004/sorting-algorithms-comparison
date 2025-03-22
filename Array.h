@@ -1,14 +1,15 @@
-#include <stdlib.h>
 using namespace std;
 template <typename dataType> class Array {
         public:
                 Array(int size) {
-                        pointer=(int*) malloc(size*sizeof(int));
+                        cout << "Constructing array of size: " << size << endl;
+                        pointer = new dataType[size*sizeof(dataType)];
                         this->size=size;
+                        cout << "Success" << endl;
                 }
                 ~Array() {
-                        cout << "Destructor of array called" << endl;
-                        free(pointer);
+                        cout << "Destructing array of size: " << this->size << endl;
+                        delete[] pointer;
                 }
                 dataType getElement(int index){
                         return *(pointer+sizeof(dataType)*index);

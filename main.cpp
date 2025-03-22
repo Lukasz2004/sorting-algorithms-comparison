@@ -5,21 +5,21 @@
 
 using namespace std;
 int main(int argc, char *argv[]) {
+
     Timer timer = Timer();
-    Array<int> a(10);
     timer.start();
-    for (int i = 1; i <= 10; i++) {
-        cout << i << std::endl;
-    }
-    timer.stop();
-    cout << timer.result() << endl;
 
 
-
+    Array<int> b(10);
     for (int i = 0; i < 10; i++) {
-        a.setElement(i, i);
-        cout << a.getElement(i) << endl;
+        b.setElement(i,(char) 'a' + i);
+        cout << (char) b.getElement(i) << endl;
     }
-    //a.destroy();
+
+
+    timer.stop();
+    cout << "Wynik timera [ms]: " << timer.result() << endl;
+
+
     return 0;
 }
