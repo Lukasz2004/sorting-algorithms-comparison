@@ -17,7 +17,8 @@ template <typename dataType> class Array {
                 void setElement(int index, dataType value){
                         *(pointer+sizeof(dataType)*index)=value;
                 }
+                int size;
         private:
                 dataType* pointer;
-                int size;
+
 };

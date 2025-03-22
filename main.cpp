@@ -2,24 +2,27 @@
 
 #include "Array.h"
 #include "Timer.h"
+#include "FileLoader.h"
 
 using namespace std;
+
 int main(int argc, char *argv[]) {
 
+    int a = 0;
     Timer timer = Timer();
-    timer.start();
+    switch (a) {
+        case 0:
+            Array<int> arrayToSort = FileLoader<int>::loadFile("../a.txt");
 
+            timer.start();
+            for (int i=0; i<arrayToSort.size; i++) {
+                cout << arrayToSort.getElement(i) << endl;
+            }
 
-    Array<int> b(10);
-    for (int i = 0; i < 10; i++) {
-        b.setElement(i,(char) 'a' + i);
-        cout << (char) b.getElement(i) << endl;
+            timer.stop();
+            cout << "Wynik timera [ms]: " << timer.result() << endl;
+
+         break;
     }
-
-
-    timer.stop();
-    cout << "Wynik timera [ms]: " << timer.result() << endl;
-
-
     return 0;
 }
