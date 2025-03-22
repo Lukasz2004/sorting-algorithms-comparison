@@ -1,14 +1,15 @@
 #include <iostream>
 
-#include "Array.cpp"
+#include "Array.h"
 #include "Timer.h"
+
 using namespace std;
 int main(int argc, char *argv[]) {
     Timer timer = Timer();
     Array<int> a(10);
     timer.start();
     for (int i = 1; i <= 10; i++) {
-        std::cout << i << std::endl;
+        cout << i << std::endl;
     }
     timer.stop();
     cout << timer.result() << endl;
