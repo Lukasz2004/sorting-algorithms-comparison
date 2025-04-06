@@ -1,3 +1,7 @@
+#ifndef FUNCTIONAL_ARRAY_H
+#define FUNCTIONAL_ARRAY_H
+#include "Array.h"
+
 template <typename type> class FunctionalArray: public Array<type> {
     public:
         explicit FunctionalArray(int size) : Array<type>(size) {}
@@ -15,6 +19,15 @@ template <typename type> class FunctionalArray: public Array<type> {
                 }
             }
             cout << "}" << endl;
+        }
+        bool verifySorted(bool invertToMin) {
+            for (int i=0; i<Array<type>::size-1; i++) {
+                if (Array<type>::getElement(i) > Array<type>::getElement(i+1)) {
+                    throw runtime_error("[Functional Array]: ARRAY INCORECTLY SORTED");
+                    return false;
+                }
+            }
+            return true;
         }
         void sort(int sortingType) {
             switch (sortingType) {
@@ -110,3 +123,4 @@ template <typename type> class FunctionalArray: public Array<type> {
             }
         }
 };
+#endif

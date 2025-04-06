@@ -19,8 +19,7 @@ public:
         file.close();
         return tempArray;
     }
-    static dataType convertString(string input){};
-    static void saveFile(Array<dataType> *array, string fileName) {
+    static void saveResultsFile(Array<dataType> *array, string fileName) {
         ofstream file;
         file.open(fileName.c_str());
         file << array->size << endl;
@@ -30,6 +29,18 @@ public:
         file.close();
         return;
     }
+    static void saveBenchmarkFile(Array<int> *array, string fileName) {
+        ofstream file;
+        file.open(fileName.c_str());
+        file << array->size << endl;
+        for (int i = 0; i < array->size; i++) {
+            file << array->getElement(i) << endl;
+        }
+        file.close();
+        return;
+    }
+    static dataType convertString(string input){};
+
 };
 
 template <> int FileOperations<int>::convertString(string input) {

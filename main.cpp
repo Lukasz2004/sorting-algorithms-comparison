@@ -1,34 +1,96 @@
 #include <iostream>
 
-#include "Array.h"
+#include "DataGeneration.h"
 #include "Timer.h"
 #include "FileOperations.h"
 
 using namespace std;
-
-template <typename dataType> void algorythm(Timer *timer, string filePath, int sortType)
+Timer timer;
+template <typename dataType> void singleFileMode(int sortType, string inputFilePath, string outputFilePath)
 {
-    FunctionalArray<dataType> arrayToSort = FileOperations<dataType>::loadFile(filePath);
+    FunctionalArray<dataType> arrayToSort = FileOperations<dataType>::loadFile(inputFilePath);
+
+    cout << "Mode: SINGLE FILE" << endl;
+    cout << "Test size: " << arrayToSort.size << endl;
+    cout << "Sorting type: " << sortType << endl;
+    cout << "=========================================================" << endl;
+    cout << endl;
     arrayToSort.printArray();
-    timer->start();
+    timer.start();
     arrayToSort.sort(sortType);
     cout << endl << endl;
     arrayToSort.printArray();
-    timer->stop();
-    cout << "Wynik timera [ms]: " << timer->result() << endl;
-    FileOperations<dataType>::saveFile(&arrayToSort,"b.txt");
+    timer.stop();
+    arrayToSort.verifySorted(false);
+    cout << "Timer result [ms]: " << timer.result() << endl;
+    FileOperations<dataType>::saveResultsFile(&arrayToSort,outputFilePath);
+}
+template <typename dataType> void benchmarkMode(int sortType, int arraySize, string outputFilePath)
+{
+    int maxIterations = 1000;
+    cout << "Mode: BENCHMARK" << endl;
+    cout << "Iteration amount: " << maxIterations << endl;
+    cout << "Test size: " << arraySize << endl;
+    cout << "Sorting type: " << sortType << endl;
+    cout << "=========================================================" << endl;
+    cout << endl;
+    cout << "Displaying 5 first results [ms]:" << endl;
+    Array<int> benchmarkResultsArray(maxIterations);
+    for (int i=0; i<maxIterations; i++) {
+        FunctionalArray<dataType> arrayToSort = DataGeneration<dataType>::generateArray(arraySize);
+        timer.reset();
+        timer.start();
+        arrayToSort.sort(sortType);
+        //arrayToSort.printArray();
+        timer.stop();
+        arrayToSort.verifySorted(false);
+        if (i<=4) {
+            cout << timer.result();
+            if (i==4) {
+                cout << endl << "All the results will be available in a .txt file " << endl << endl;
+            }
+            else {
+                cout << ", ";
+            }
+        }
+        if (((i+1)*100)%(10*maxIterations)==0) {
+            cout << "Progress: " << ((i+1)*100/maxIterations) << "%" << endl;
+        }
+        benchmarkResultsArray.setElement(i, timer.result());
+    }
+    FileOperations<dataType>::saveBenchmarkFile(&benchmarkResultsArray,outputFilePath);
 }
 int main(int argc, char *argv[]) {
+    srand(time(NULL));
 
-    string filePath = "a.txt";
-    int dataType = 0; //Imitacja datatype
+    string inputFilePath = "a.txt";
+    string outputFilePath = "b.txt";
+    int runType = 1;
+    int dataType = 2; //Imitacja datatype
     int sortType = 0; //Imitacja sorttype
+    int arraySize = 300000;
     Timer timer = Timer();
+    cout << "=========================================================" << endl;
+    cout << "Starting sortArray program by L.Czerwinski" << endl;
     if (dataType==0) { //INTEGER
-        algorythm<int>(&timer, filePath, sortType);
-    } else if (dataType==1) { //
-        algorythm<string>(&timer, filePath, sortType);
+        cout << "Data Type: INTEGER" << endl;
+        if (runType==0) {singleFileMode<int>(sortType, inputFilePath, outputFilePath);}
+        if (runType==1) {benchmarkMode<int>(sortType, arraySize, outputFilePath);}
+    } else if (dataType==1) { //FLOAT
+        cout << "Data Type: FLOAT" << endl;
+        if (runType==0) {singleFileMode<float>(sortType, inputFilePath, outputFilePath);}
+        if (runType==1) {benchmarkMode<float>(sortType, arraySize, outputFilePath);}
     }
+    else if (dataType==2) { //STRING
+        cout << "Data Type: STRING" << endl;
+        if (runType==0) {singleFileMode<string>(sortType, inputFilePath, outputFilePath);}
+        if (runType==1) {benchmarkMode<string>(sortType, arraySize, outputFilePath);}
+    }
+    /*else if (dataType==3) { //BOARDGAMES
+        cout << "Data Type: BOARD GAMES" << endl;
+        if (runType==0) {singleFileMode<float>(sortType, inputFilePath, outputFilePath);}
+        if (runType==1) {benchmarkMode<float>(sortType, outputFilePath);}
+    }*/
     else {
         throw invalid_argument( "[Functional Array]: UNSUPORTED DATA TYPE" );
     }

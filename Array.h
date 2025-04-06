@@ -1,14 +1,12 @@
+#include <iostream>
 using namespace std;
 template <typename dataType> class Array {
         public:
                 Array(int size) {
-                        cout << "Constructing array of size: " << size << endl;
                         pointer = new dataType[size*sizeof(dataType)];
                         this->size=size;
-                        cout << "Success" << endl;
                 }
                 ~Array() {
-                        cout << "Destructing array of size: " << this->size << endl;
                         delete[] pointer;
                 }
                 dataType getElement(int index){
