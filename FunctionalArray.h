@@ -88,7 +88,7 @@ template <typename type> class FunctionalArray: public Array<type> {
         void heapify(int n, int maxn, bool invertToMinHeap) {
             int lIndex = 2*n;
             int rIndex = 2*n+1;
-            type largest;
+            int largest;
             if (lIndex<maxn && Array<type>::getElement(lIndex) > Array<type>::getElement(n)) {
                 largest = lIndex;
             }

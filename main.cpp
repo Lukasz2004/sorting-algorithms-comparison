@@ -18,7 +18,12 @@ int main(int argc, char *argv[]) {
         cout << endl << endl;
         arrayToSort.printArray();
     } else if (a==1) { //
-        return a;
+        FunctionalArray<string> arrayToSort = FileLoader<string>::loadFile("../a.txt");
+        arrayToSort.printArray();
+        timer.start();
+        arrayToSort.sort(b);
+        cout << endl << endl;
+        arrayToSort.printArray();
     }
     else {
         throw invalid_argument( "[Functional Array]: UNSUPORTED DATA TYPE" );
