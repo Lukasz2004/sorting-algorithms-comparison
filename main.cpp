@@ -5,6 +5,19 @@
 #include "FileOperations.h"
 
 using namespace std;
+
+template <typename dataType> void algorythm(Timer *timer, string filePath, int sortType)
+{
+    FunctionalArray<dataType> arrayToSort = FileOperations<dataType>::loadFile(filePath);
+    arrayToSort.printArray();
+    timer->start();
+    arrayToSort.sort(sortType);
+    cout << endl << endl;
+    arrayToSort.printArray();
+    timer->stop();
+    cout << "Wynik timera [ms]: " << timer->result() << endl;
+    FileOperations<dataType>::saveFile(&arrayToSort,"b.txt");
+}
 int main(int argc, char *argv[]) {
 
     string filePath = "a.txt";
@@ -12,23 +25,9 @@ int main(int argc, char *argv[]) {
     int sortType = 0; //Imitacja sorttype
     Timer timer = Timer();
     if (dataType==0) { //INTEGER
-        FunctionalArray<int> arrayToSort = FileOperations<int>::loadFile(filePath);
-        arrayToSort.printArray();
-        timer.start();
-        arrayToSort.sort(sortType);
-        cout << endl << endl;
-        arrayToSort.printArray();
-        timer.stop();
-        cout << "Wynik timera [ms]: " << timer.result() << endl;
-        FileOperations<int>::saveFile(&arrayToSort,"b.txt");
+        algorythm<int>(&timer, filePath, sortType);
     } else if (dataType==1) { //
-        FunctionalArray<string> arrayToSort = FileOperations<string>::loadFile(filePath);
-        arrayToSort.printArray();
-        timer.start();
-        arrayToSort.sort(sortType);
-        cout << endl << endl;
-        arrayToSort.printArray();
-
+        algorythm<string>(&timer, filePath, sortType);
     }
     else {
         throw invalid_argument( "[Functional Array]: UNSUPORTED DATA TYPE" );
