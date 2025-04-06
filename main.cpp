@@ -8,15 +8,15 @@ using namespace std;
 int main(int argc, char *argv[]) {
 
     int a = 0; //Imitacja datatype
-    int b = 2; //Imitacja sorttype
+    int b = 0; //Imitacja sorttype
     Timer timer = Timer();
     if (a==0) { //INTEGER
         FunctionalArray<int> arrayToSort = FileLoader<int>::loadFile("../a.txt");
-        for (int i=0; i<arrayToSort.size; i++) {
-            cout << arrayToSort.getElement(i) << endl;
-        }
+        arrayToSort.printArray();
         timer.start();
         arrayToSort.sort(b);
+        cout << endl << endl;
+        arrayToSort.printArray();
     } else if (a==1) { //
         return a;
     }
