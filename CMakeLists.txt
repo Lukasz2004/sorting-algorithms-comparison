@@ -8,4 +8,5 @@ add_executable(Sorting main.cpp
         Timer.h
         Array.h
         FileLoader.h
+        FunctionalArray.h
 )
