@@ -62,14 +62,13 @@ template <typename dataType> void benchmarkMode(int sortType, int arraySize, str
 }
 int main(int argc, char *argv[]) {
     srand(time(NULL));
-
     string inputFilePath = "a.txt";
-    string outputFilePath = "b.txt";
-    int runType = 1;
-    int dataType = 2; //Imitacja datatype
-    int sortType = 0; //Imitacja sorttype
-    int arraySize = 300000;
-    Timer timer = Timer();
+    string outputFilePath = argv[5];
+    int runType = atoi(argv[1]);
+    int dataType = atoi(argv[2]); //Imitacja datatype
+    int sortType = atoi(argv[3]); //Imitacja sorttype
+    int arraySize = atoi(argv[4]);
+
     cout << "=========================================================" << endl;
     cout << "Starting sortArray program by L.Czerwinski" << endl;
     if (dataType==0) { //INTEGER

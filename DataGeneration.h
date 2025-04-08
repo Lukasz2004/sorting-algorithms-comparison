@@ -1,6 +1,6 @@
 #ifndef DATAGENERATION_H
 #define DATAGENERATION_H
-#include <stdlib.h>
+#include <cstdlib>
 #include <string>
 
 #include "FunctionalArray.h"
