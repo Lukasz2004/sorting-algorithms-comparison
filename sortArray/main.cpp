@@ -1,8 +1,8 @@
 #include <iostream>
 
-#include "DataGeneration.h"
-#include "Timer.h"
-#include "FileOperations.h"
+#include "Data/DataGeneration.h"
+#include "Timer/Timer.h"
+#include "Data/FileOperations.h"
 
 using namespace std;
 Timer timer;

@@ -5,11 +5,11 @@ set(CMAKE_CXX_STANDARD 98)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY  ${CMAKE_CURRENT_SOURCE_DIR})
 set(CMAKE_EXE_LINKER_FLAGS "-static")
 
-add_executable(sortArray main.cpp
-        Timer.cpp
-        Timer.h
-        Array.h
-        FileOperations.h
-        FunctionalArray.h
-        DataGeneration.h
+add_executable(sortArray sortArray/main.cpp
+        sortArray/Timer/Timer.cpp
+        sortArray/Timer/Timer.h
+        sortArray/Array/Array.h
+        sortArray/Data/FileOperations.h
+        sortArray/Array/FunctionalArray.h
+        sortArray/Data/DataGeneration.h
 )

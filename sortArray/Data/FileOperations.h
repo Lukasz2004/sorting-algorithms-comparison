@@ -1,7 +1,7 @@
 #include <fstream>
 #include <cstdlib>
 
-#include "FunctionalArray.h"
+#include "../Array/FunctionalArray.h"
 
 template <typename dataType> class FileOperations {
 public:
