@@ -12,4 +12,6 @@ add_executable(sortArray sortArray/main.cpp
         sortArray/Data/FileOperations.h
         sortArray/Array/FunctionalArray.h
         sortArray/Data/DataGeneration.h
+        sortArray/help/Help.cpp
+        sortArray/help/Help.h
 )

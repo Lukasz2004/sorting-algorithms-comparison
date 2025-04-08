@@ -3,7 +3,7 @@
 #include <cstdlib>
 #include <string>
 
-#include "../Array/FunctionalArray.h"
+#include "../array/FunctionalArray.h"
 
 using namespace std;
 template <typename dataType> class DataGeneration {

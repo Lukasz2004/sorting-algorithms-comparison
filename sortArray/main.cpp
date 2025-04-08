@@ -1,8 +1,11 @@
 #include <iostream>
+#include <string.h>
+#include <typeinfo>
 
-#include "Data/DataGeneration.h"
-#include "Timer/Timer.h"
-#include "Data/FileOperations.h"
+#include "data/DataGeneration.h"
+#include "timer/Timer.h"
+#include "data/FileOperations.h"
+#include "help/Help.h"
 
 using namespace std;
 Timer timer;
@@ -61,6 +64,10 @@ template <typename dataType> void benchmarkMode(int sortType, int arraySize, str
     FileOperations<dataType>::saveBenchmarkFile(&benchmarkResultsArray,outputFilePath);
 }
 int main(int argc, char *argv[]) {
+    if (argc == 1 || strcmp(argv[1],"--help") == 0 || strcmp(argv[1],"-help" ) == 0) {
+        Help::displayHelp();
+        return 0;
+    }
     srand(time(NULL));
     string inputFilePath = "a.txt";
     string outputFilePath = argv[5];
@@ -78,7 +85,7 @@ int main(int argc, char *argv[]) {
     } else if (dataType==1) { //FLOAT
         cout << "Data Type: FLOAT" << endl;
         if (runType==0) {singleFileMode<float>(sortType, inputFilePath, outputFilePath);}
-        if (runType==1) {benchmarkMode<float>(sortType, arraySize, outputFilePath);}
+        if (runType==1) {benchmarkMode<float(sortType, arraySize, outputFilePath);}
     }
     else if (dataType==2) { //STRING
         cout << "Data Type: STRING" << endl;
