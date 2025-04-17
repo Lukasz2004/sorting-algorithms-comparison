@@ -2,6 +2,7 @@
 #include <string.h>
 #include <typeinfo>
 
+#include "boardGames/BoardGame.h"
 #include "data/DataGeneration.h"
 #include "timer/Timer.h"
 #include "data/FileOperations.h"
@@ -85,18 +86,18 @@ int main(int argc, char *argv[]) {
     } else if (dataType==1) { //FLOAT
         cout << "Data Type: FLOAT" << endl;
         if (runType==0) {singleFileMode<float>(sortType, inputFilePath, outputFilePath);}
-        if (runType==1) {benchmarkMode<float(sortType, arraySize, outputFilePath);}
+        if (runType==1) {benchmarkMode<float>(sortType, arraySize, outputFilePath);}
     }
     else if (dataType==2) { //STRING
         cout << "Data Type: STRING" << endl;
         if (runType==0) {singleFileMode<string>(sortType, inputFilePath, outputFilePath);}
         if (runType==1) {benchmarkMode<string>(sortType, arraySize, outputFilePath);}
     }
-    /*else if (dataType==3) { //BOARDGAMES
+    else if (dataType==3) { //BOARDGAMES
         cout << "Data Type: BOARD GAMES" << endl;
-        if (runType==0) {singleFileMode<float>(sortType, inputFilePath, outputFilePath);}
-        if (runType==1) {benchmarkMode<float>(sortType, outputFilePath);}
-    }*/
+        if (runType==0) {singleFileMode<BoardGame>(sortType, inputFilePath, outputFilePath);}
+        if (runType==1) {benchmarkMode<BoardGame>(sortType, arraySize, outputFilePath);}
+    }
     else {
         throw invalid_argument( "[Functional Array]: UNSUPORTED DATA TYPE" );
     }
