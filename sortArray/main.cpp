@@ -2,6 +2,7 @@
 #include <string.h>
 #include <typeinfo>
 
+#include "boardGames/BoardGame.h"
 #include "data/DataGeneration.h"
 #include "timer/Timer.h"
 #include "data/FileOperations.h"
@@ -9,6 +10,16 @@
 
 using namespace std;
 Timer timer;
+template <typename dataType> void generateTestFile(int size, string outputFilePath)
+{
+    cout << "Mode: GENERATE TEST" << endl;
+    cout << "Test size: " << size << endl;
+    cout << "=========================================================" << endl;
+    cout << endl;
+    FunctionalArray<dataType> generatedArray = DataGeneration<dataType>::generateArray(size);
+    FileOperations<dataType>::saveResultsFile(&generatedArray, outputFilePath);
+    cout << "Successly saved to " << outputFilePath << endl;
+}
 template <typename dataType> void singleFileMode(int sortType, string inputFilePath, string outputFilePath)
 {
     FunctionalArray<dataType> arrayToSort = FileOperations<dataType>::loadFile(inputFilePath);
@@ -18,12 +29,17 @@ template <typename dataType> void singleFileMode(int sortType, string inputFileP
     cout << "Sorting type: " << sortType << endl;
     cout << "=========================================================" << endl;
     cout << endl;
+    cout << "Loaded array:" << endl;
     arrayToSort.printArray();
+
     timer.start();
     arrayToSort.sort(sortType);
-    cout << endl << endl;
-    arrayToSort.printArray();
     timer.stop();
+
+    cout << endl << endl;
+    cout << "Sorted array:" << endl;
+    arrayToSort.printArray();
+
     arrayToSort.verifySorted(false);
     cout << "Timer result [ms]: " << timer.result() << endl;
     FileOperations<dataType>::saveResultsFile(&arrayToSort,outputFilePath);
@@ -69,12 +85,16 @@ int main(int argc, char *argv[]) {
         return 0;
     }
     srand(time(NULL));
-    string inputFilePath = "a.txt";
-    string outputFilePath = argv[5];
+    string inputFilePath = "generatedTest.txt";
+    string outputFilePath;
     int runType = atoi(argv[1]);
-    int dataType = atoi(argv[2]); //Imitacja datatype
-    int sortType = atoi(argv[3]); //Imitacja sorttype
-    int arraySize = atoi(argv[4]);
+    int dataType = atoi(argv[2]);//Imitacja datatype
+    int sortType, arraySize;
+    if (runType==0||runType==1) {
+        sortType = atoi(argv[3]); //Imitacja sorttype
+        arraySize = atoi(argv[4]);
+        string outputFilePath = argv[5];
+    }
 
     cout << "=========================================================" << endl;
     cout << "Starting sortArray program by L.Czerwinski" << endl;
@@ -82,21 +102,25 @@ int main(int argc, char *argv[]) {
         cout << "Data Type: INTEGER" << endl;
         if (runType==0) {singleFileMode<int>(sortType, inputFilePath, outputFilePath);}
         if (runType==1) {benchmarkMode<int>(sortType, arraySize, outputFilePath);}
+        if (runType==2) {generateTestFile<int>(atoi(argv[3]), argv[4]);}
     } else if (dataType==1) { //FLOAT
         cout << "Data Type: FLOAT" << endl;
         if (runType==0) {singleFileMode<float>(sortType, inputFilePath, outputFilePath);}
-        if (runType==1) {benchmarkMode<float(sortType, arraySize, outputFilePath);}
+        if (runType==1) {benchmarkMode<float>(sortType, arraySize, outputFilePath);}
+        if (runType==2) {generateTestFile<float>(atoi(argv[3]), argv[4]);}
     }
     else if (dataType==2) { //STRING
         cout << "Data Type: STRING" << endl;
         if (runType==0) {singleFileMode<string>(sortType, inputFilePath, outputFilePath);}
         if (runType==1) {benchmarkMode<string>(sortType, arraySize, outputFilePath);}
+        if (runType==2) {generateTestFile<string>(atoi(argv[3]), argv[4]);}
     }
-    /*else if (dataType==3) { //BOARDGAMES
+    else if (dataType==3) { //BOARDGAMES
         cout << "Data Type: BOARD GAMES" << endl;
-        if (runType==0) {singleFileMode<float>(sortType, inputFilePath, outputFilePath);}
-        if (runType==1) {benchmarkMode<float>(sortType, outputFilePath);}
-    }*/
+        if (runType==0) {singleFileMode<BoardGame>(sortType, inputFilePath, outputFilePath);}
+        if (runType==1) {benchmarkMode<BoardGame>(sortType, arraySize, outputFilePath);}
+        if (runType==2) {generateTestFile<BoardGame>(atoi(argv[3]), argv[4]);}
+    }
     else {
         throw invalid_argument( "[Functional Array]: UNSUPORTED DATA TYPE" );
     }
