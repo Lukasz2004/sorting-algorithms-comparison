@@ -1,6 +1,7 @@
 #ifndef FUNCTIONAL_ARRAY_H
 #define FUNCTIONAL_ARRAY_H
 #include "Array.h"
+#include <math.h>
 
 template <typename type> class FunctionalArray: public Array<type> {
     public:
@@ -41,7 +42,7 @@ template <typename type> class FunctionalArray: public Array<type> {
                     heapSort();
                     break;
                 case 3:
-                    shellSort(0);
+                    shellSort(1);
                     break;
                 default:
                     throw std::invalid_argument( "[Functional Array]: UNSUPORTED SORTING TYPE" );
@@ -84,11 +85,11 @@ template <typename type> class FunctionalArray: public Array<type> {
             } while(i <= j);
 
             if(lIndex < j) {
-                quickSort(lIndex, j);
+                quickSort(lIndex, j, pivotType);
             }
 
             if(rIndex > i) {
-                quickSort(i, rIndex);
+                quickSort(i, rIndex, pivotType);
             }
         }
 
@@ -100,19 +101,23 @@ template <typename type> class FunctionalArray: public Array<type> {
                 }
             }
             if (gapType==1) {
-
+                for (int gap = pow(2, ceil(log(Array<type>::size)/log(2))); gap > 0; gap /= 2)
+                {
+                    cout << "GAAP" << gap << endl;
+                    insertionSort(gap-1);
+                }
             }
         }
         void insertionSort(int gap) {
             for (int i = gap; i < Array<type>::size; i++) {
                 int j = i;
                 type temp = Array<type>::getElement(i);
-                while (j>= gap && temp < Array<type>::getElement(j-gap)) {
+                while (j> 0 && temp < Array<type>::getElement(j-gap)) {
                     j=j-gap;
                 }
 
-                for (int ii=i; ii>j; ii=-gap) {
-                    Array<type>::setElement(ii, Array<type>::getElement(ii-gap));
+                for (int ii=i; ii>j; ii--) {
+                    Array<type>::setElement(ii, Array<type>::getElement(ii-1));
                 }
                 Array<type>::setElement(j, temp);
             }
