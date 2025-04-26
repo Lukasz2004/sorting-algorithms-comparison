@@ -32,7 +32,7 @@ template <typename type> class FunctionalArray: public Array<type> {
         void sort(int sortingType) {
             switch (sortingType) {
                 case 0:
-                    quickSort(0, this->Array<type>::size-1);
+                    quickSort(0, this->Array<type>::size-1,2);
                     break;
                 case 1:
                     insertionSort();
@@ -44,10 +44,26 @@ template <typename type> class FunctionalArray: public Array<type> {
                     throw std::invalid_argument( "[Functional Array]: UNSUPORTED SORTING TYPE" );
             }
         }
-        void quickSort(int lIndex, int rIndex) {
+        void quickSort(int lIndex, int rIndex, int pivotType) {
             int i = lIndex;
             int j = rIndex;
-            type x = Array<type>::getElement((lIndex + rIndex ) / 2);
+            type x;
+            if (pivotType==0) //Left
+            {
+                x = Array<type>::getElement(lIndex);
+            }
+            if (pivotType==1) //Right
+            {
+                x = Array<type>::getElement(rIndex);
+            }
+            if (pivotType==2) //Middle
+            {
+                x = Array<type>::getElement((lIndex + rIndex ) / 2);
+            }
+            if (pivotType==3) //Random
+            {
+                x = Array<type>::getElement(rand()%(rIndex-lIndex)+lIndex);
+            }
             do
             {
                 while( Array<type>::getElement(i) < x ) {
