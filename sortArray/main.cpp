@@ -36,6 +36,7 @@ template <typename dataType> void singleFileMode(int sortType, string inputFileP
     arrayToSort.sort(sortType);
     timer.stop();
 
+    arrayToSort.verifySorted(false);
     cout << endl << endl;
     cout << "Sorted array:" << endl;
     arrayToSort.printArray();
