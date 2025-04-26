@@ -35,10 +35,13 @@ template <typename type> class FunctionalArray: public Array<type> {
                     quickSort(0, this->Array<type>::size-1,2);
                     break;
                 case 1:
-                    insertionSort();
+                    insertionSort(1);
                     break;
                 case 2:
                     heapSort();
+                    break;
+                case 3:
+                    shellSort(0);
                     break;
                 default:
                     throw std::invalid_argument( "[Functional Array]: UNSUPORTED SORTING TYPE" );
@@ -88,16 +91,28 @@ template <typename type> class FunctionalArray: public Array<type> {
                 quickSort(i, rIndex);
             }
         }
-        void insertionSort() {
-            for (int i = 1; i < Array<type>::size; i++) {
+
+        void shellSort(int gapType) {
+            if (gapType==0) {
+                for (int gap = Array<type>::size/2; gap > 0; gap /= 2)
+                {
+                    insertionSort(gap);
+                }
+            }
+            if (gapType==1) {
+
+            }
+        }
+        void insertionSort(int gap) {
+            for (int i = gap; i < Array<type>::size; i++) {
                 int j = i;
                 type temp = Array<type>::getElement(i);
-                while (j>0 && temp < Array<type>::getElement(j-1)) {
-                    j=j-1;
+                while (j>= gap && temp < Array<type>::getElement(j-gap)) {
+                    j=j-gap;
                 }
 
-                for (int ii=i; ii>j; ii--) {
-                    Array<type>::setElement(ii, Array<type>::getElement(ii-1));
+                for (int ii=i; ii>j; ii=-gap) {
+                    Array<type>::setElement(ii, Array<type>::getElement(ii-gap));
                 }
                 Array<type>::setElement(j, temp);
             }
