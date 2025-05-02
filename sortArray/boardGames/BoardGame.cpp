@@ -17,12 +17,12 @@ float BoardGame::averageHappiness() const {
     return happinessFactor;
 }
 BoardGame::BoardGame() {
-    BoardGame::name = "Aaa";
-    BoardGame::publisher = "Aaa";
+    BoardGame::name = new char[25];
+    BoardGame::publisher = new char[25];
     BoardGame::maxPlayers = 10;
-    BoardGame::playTime = 1;
-    BoardGame::difficultyLevel = 1;
-    BoardGame::happinessFactor = 1;
+    BoardGame::playTime = 480;
+    BoardGame::difficultyLevel = 10;
+    BoardGame::happinessFactor = 10;
 }
 BoardGame::BoardGame(string name, string publisher, int maxPlayers, int playTime, int difficultyLevel, int happinessFactor) {
     BoardGame::name = name;
