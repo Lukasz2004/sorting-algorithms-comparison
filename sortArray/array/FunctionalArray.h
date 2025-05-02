@@ -11,6 +11,11 @@ template <typename type> class FunctionalArray: public Array<type> {
             this->Array<type>::setElement(index1, this->Array<type>::getElement(index2));
             this->Array<type>::setElement(index2, temp);
         }
+        void reverse(int lIndex=0, int rIndex=Array<type>::size-1) {
+            for (int i = lIndex; i <= rIndex; i++) {
+                swap(i, rIndex-i);
+            }
+        }
         void printArray() {
             cout << "{";
             for (int i=0; i<Array<type>::size; i++) {
@@ -30,10 +35,14 @@ template <typename type> class FunctionalArray: public Array<type> {
             }
             return true;
         }
-        void sort(int sortingType) {
+        void sort(int sortingType, int param=-1) {
             switch (sortingType) {
                 case 0:
-                    quickSort(0, this->Array<type>::size-1,2);
+                    if (param==-1){param=2;}
+                    if (param<-1||param>3) {
+                        throw std::invalid_argument("[Functional Array]: ARRAY INCORRECT SORTING PARAM");
+                    }
+                    quickSort(0, this->Array<type>::size-1,param);
                     break;
                 case 1:
                     insertionSort(1);
@@ -42,10 +51,27 @@ template <typename type> class FunctionalArray: public Array<type> {
                     heapSort();
                     break;
                 case 3:
-                    shellSort(1);
+                    if (param==-1){param=1;}
+                    if (param<0||param>2) {
+                        throw std::invalid_argument("[Functional Array]: ARRAY INCORRECT SORTING PARAM");
+                    }
+                    shellSort(param,100);
+                    break;
+                case 4:
+                    if (param==-1){param=100;}
+                    crazySort(param);
                     break;
                 default:
-                    throw std::invalid_argument( "[Functional Array]: UNSUPORTED SORTING TYPE" );
+                    throw std::invalid_argument( "[Functional Array]: UNSUPPORTED SORTING TYPE" );
+            }
+        }
+        void partialSort(int percentage) {
+            if (percentage<-100||percentage>100) {
+                throw std::invalid_argument( "[Functional Array]: INVALID PRESORT PERCENTAGE" );
+            }
+            quickSort(0, (this->Array<type>::size-1)*abs(percentage)/100,3);
+            if (percentage<0) {
+                reverse(0,(this->Array<type>::size-1)*abs(percentage)/100);
             }
         }
         void quickSort(int lIndex, int rIndex, int pivotType) {
@@ -93,7 +119,7 @@ template <typename type> class FunctionalArray: public Array<type> {
             }
         }
 
-        void shellSort(int gapType) {
+        void shellSort(int gapType, int correctnessPercentage) {
             if (gapType==0) {
                 for (int gap = Array<type>::size/2; gap > 0; gap /= 2)
                 {
@@ -101,25 +127,48 @@ template <typename type> class FunctionalArray: public Array<type> {
                 }
             }
             if (gapType==1) {
-                for (int gap = pow(2, ceil(log(Array<type>::size)/log(2))); gap > 0; gap /= 2)
+                for (int gap = pow(2, ceil(log(Array<type>::size)/log(2)))/2; gap > 0; gap /= 2)
                 {
-                    cout << "GAAP" << gap << endl;
                     insertionSort(gap-1);
                 }
             }
+            if (gapType==2) {
+                try
+                {
+                    bool event = rand()%101 > correctnessPercentage;
+                    for (int gap = Array<type>::size/2; gap > 0; gap /= 2)
+                    {
+                        if (!event) {
+                            insertionSort(gap);
+                        }
+                        else {
+                            insertionSort(rand()%(Array<type>::size-2)+1);
+                        }
+                    }
+                    verifySorted(false);
+                }
+                catch(runtime_error) {
+                    shellSort(gapType, correctnessPercentage);
+                }
+            }
+        }
+        void crazySort(int percentage) {
+            shellSort(2, percentage);
         }
         void insertionSort(int gap) {
-            for (int i = gap; i < Array<type>::size; i++) {
-                int j = i;
-                type temp = Array<type>::getElement(i);
-                while (j> 0 && temp < Array<type>::getElement(j-gap)) {
-                    j=j-gap;
-                }
+            for (int a=0; a<gap; a++) {
+                for (int i = a+gap; i < Array<type>::size; i=i+gap) {
+                    int j = i;
+                    type temp = Array<type>::getElement(i);
+                    while (j>= gap && temp < Array<type>::getElement(j-gap)) {
+                        j=j-gap;
+                    }
 
-                for (int ii=i; ii>j; ii--) {
-                    Array<type>::setElement(ii, Array<type>::getElement(ii-1));
+                    for (int ii=i; ii>j; ii=ii-gap) {
+                        Array<type>::setElement(ii, Array<type>::getElement(ii-gap));
+                    }
+                    Array<type>::setElement(j, temp);
                 }
-                Array<type>::setElement(j, temp);
             }
         }
         void heapSort() {

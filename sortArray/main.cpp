@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <iostream>
 #include <string.h>
 #include <typeinfo>
@@ -45,24 +46,33 @@ template <typename dataType> void singleFileMode(int sortType, string inputFileP
     cout << "Timer result [ms]: " << timer.result() << endl;
     FileOperations<dataType>::saveResultsFile(&arrayToSort,outputFilePath);
 }
-template <typename dataType> void benchmarkMode(int sortType, int arraySize, string outputFilePath)
+template <typename dataType> void benchmarkMode(int sortType, int arraySize, string outputFilePath, int sortParam=-1, int presortPercentage=0)
 {
     int maxIterations = 1000;
     cout << "Mode: BENCHMARK" << endl;
     cout << "Iteration amount: " << maxIterations << endl;
     cout << "Test size: " << arraySize << endl;
     cout << "Sorting type: " << sortType << endl;
+    if (sortParam!=-1) {
+        cout << "Sorting param: " << sortParam << endl;
+    }
+    if (presortPercentage!=0) {
+        cout << "Presort percentage: " << presortPercentage << "%" << endl;
+    }
     cout << "=========================================================" << endl;
     cout << endl;
     cout << "Displaying 5 first results [ms]:" << endl;
     Array<int> benchmarkResultsArray(maxIterations);
     for (int i=0; i<maxIterations; i++) {
         FunctionalArray<dataType> arrayToSort = DataGeneration<dataType>::generateArray(arraySize);
+
+        if (presortPercentage!=0){arrayToSort.partialSort(presortPercentage);}
         timer.reset();
+
         timer.start();
-        arrayToSort.sort(sortType);
-        //arrayToSort.printArray();
+        arrayToSort.sort(sortType, sortParam);
         timer.stop();
+
         arrayToSort.verifySorted(false);
         if (i<=4) {
             cout << timer.result();
@@ -80,50 +90,68 @@ template <typename dataType> void benchmarkMode(int sortType, int arraySize, str
     }
     FileOperations<dataType>::saveBenchmarkFile(&benchmarkResultsArray,outputFilePath);
 }
+template <typename dataType> void parameterModeBenchmark(int sortType, int arraySize, string outputFilePath, int parameter) {
+
+}
+template <typename dataType> void chooseMode(int argc, char *argv[]) {
+    string runType = argv[1];
+
+    string inputFilePath = "generatedTest.txt";
+    if (runType=="--single") {singleFileMode<dataType>(atoi(argv[3]), inputFilePath, argv[5]);}
+    else if (runType=="--benchmark") {
+        int sortType = atoi(argv[3]);
+        int arraySize = atoi(argv[4]);
+        string outputFilePath = argv[5];
+        int sortParam = -1;
+        int presortPercentage = 0;
+        for (int i=6; i<argc; i++) {
+            string temp = argv[i];
+            if (temp=="-arg") {
+                string temp2 = argv[i+1];
+                sortParam = atoi(temp2.c_str());
+            }
+            if (temp=="-pre") {
+                string temp2 = argv[i+1];
+                presortPercentage = atoi(temp2.c_str());
+            }
+        }
+
+        benchmarkMode<dataType>(sortType,arraySize, outputFilePath, sortParam, presortPercentage);
+    }
+    else if (runType=="--generate") {generateTestFile<dataType>(atoi(argv[3]), argv[4]);}
+    else {
+        cout << endl << endl << endl << "Invalid Parameters, displaying help" << endl;
+        Help::displayHelp();
+        return;
+    }
+}
 int main(int argc, char *argv[]) {
     if (argc == 1 || strcmp(argv[1],"--help") == 0 || strcmp(argv[1],"-help" ) == 0) {
         Help::displayHelp();
         return 0;
     }
     srand(time(NULL));
-    string inputFilePath = "generatedTest.txt";
-    string outputFilePath;
-    int runType = atoi(argv[1]);
     int dataType = atoi(argv[2]);//Imitacja datatype
-    int sortType, arraySize;
-    if (runType==0||runType==1) {
-        sortType = atoi(argv[3]); //Imitacja sorttype
-        arraySize = atoi(argv[4]);
-        string outputFilePath = argv[5];
-    }
 
     cout << "=========================================================" << endl;
     cout << "Starting sortArray program by L.Czerwinski" << endl;
     if (dataType==0) { //INTEGER
         cout << "Data Type: INTEGER" << endl;
-        if (runType==0) {singleFileMode<int>(sortType, inputFilePath, outputFilePath);}
-        if (runType==1) {benchmarkMode<int>(sortType, arraySize, outputFilePath);}
-        if (runType==2) {generateTestFile<int>(atoi(argv[3]), argv[4]);}
+        chooseMode<int>(argc,argv);
     } else if (dataType==1) { //FLOAT
         cout << "Data Type: FLOAT" << endl;
-        if (runType==0) {singleFileMode<float>(sortType, inputFilePath, outputFilePath);}
-        if (runType==1) {benchmarkMode<float>(sortType, arraySize, outputFilePath);}
-        if (runType==2) {generateTestFile<float>(atoi(argv[3]), argv[4]);}
+        chooseMode<float>(argc,argv);
     }
     else if (dataType==2) { //STRING
         cout << "Data Type: STRING" << endl;
-        if (runType==0) {singleFileMode<string>(sortType, inputFilePath, outputFilePath);}
-        if (runType==1) {benchmarkMode<string>(sortType, arraySize, outputFilePath);}
-        if (runType==2) {generateTestFile<string>(atoi(argv[3]), argv[4]);}
+        chooseMode<string>(argc,argv);
     }
     else if (dataType==3) { //BOARDGAMES
         cout << "Data Type: BOARD GAMES" << endl;
-        if (runType==0) {singleFileMode<BoardGame>(sortType, inputFilePath, outputFilePath);}
-        if (runType==1) {benchmarkMode<BoardGame>(sortType, arraySize, outputFilePath);}
-        if (runType==2) {generateTestFile<BoardGame>(atoi(argv[3]), argv[4]);}
+        chooseMode<BoardGame>(argc,argv);
     }
     else {
-        throw invalid_argument( "[Functional Array]: UNSUPORTED DATA TYPE" );
+        throw invalid_argument( "[Functional Array]: UNSUPPORTED DATA TYPE" );
     }
 
 
