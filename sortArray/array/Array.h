@@ -2,10 +2,12 @@
 using namespace std;
 template <typename dataType> class Array {
         public:
+                //Constructor
                 Array(int size) {
                         pointer = new dataType[size*sizeof(dataType)];
                         this->size=size;
                 }
+                //Destructor
                 ~Array() {
                         delete[] pointer;
                 }

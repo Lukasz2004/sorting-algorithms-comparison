@@ -14,4 +14,6 @@ add_executable(sortArray sortArray/main.cpp
         sortArray/Data/DataGeneration.h
         sortArray/help/Help.cpp
         sortArray/help/Help.h
+        sortArray/boardGames/BoardGame.cpp
+        sortArray/boardGames/BoardGame.h
 )
