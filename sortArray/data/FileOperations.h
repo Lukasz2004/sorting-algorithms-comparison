@@ -45,15 +45,19 @@ public:
 
 };
 
+//Specialisation of convertString for int
 template <> int FileOperations<int>::convertString(string input) {
     return atoi(input.c_str());
 }
+//Specialisation of convertString for float
 template <> float FileOperations<float>::convertString(string input) {
     return atof(input.c_str());
 }
+//Specialisation of convertString for string
 template <> string FileOperations<string>::convertString(string input) {
     return input;
 }
+//Specialisation of convertString for BoardGame
 template <> BoardGame FileOperations<BoardGame>::convertString(string input) {
     stringstream ss(input);
     string temp;
@@ -71,6 +75,7 @@ template <> BoardGame FileOperations<BoardGame>::convertString(string input) {
     int happinessFactor = atoi(temp.c_str());
     return BoardGame(name,publisher,maxPlayers,playTime,difficultyLevel,happinessFactor);
 }
+//Specialisation of saveResultsFile for BoardGame
 template <> void FileOperations<BoardGame>::saveResultsFile(Array<BoardGame> *array, string fileName) {
     ofstream file;
     file.open(fileName.c_str());

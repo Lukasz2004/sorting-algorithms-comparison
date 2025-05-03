@@ -97,9 +97,8 @@ template <typename dataType> void benchmarkMode(int sortType, int arraySize, con
 template <typename dataType> void chooseMode(int argc, char *argv[]) {
     string runType = argv[1];
 
-    string inputFilePath = "generatedTest.txt";
     if (runType=="--single") { //SINGLE FILE MODE
-        singleFileMode<dataType>(atoi(argv[3]), inputFilePath, argv[5]);
+        singleFileMode<dataType>(atoi(argv[3]), argv[4], argv[5]);
     }
     else if (runType=="--benchmark") { //BENCHMARK MODE
         int sortType = atoi(argv[3]);
