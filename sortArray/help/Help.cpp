@@ -6,7 +6,7 @@
 using namespace std;
 void Help::displayHelp() {
     cout << "=========================================================" << endl;
-    cout << "sortArray program by L.Czerwinski" << endl;
+    cout << "sortArray program by L.Czerwinski - Help:" << endl;
     cout << "---------------------------------------------------------" << endl;
     cout << "Single File Test Mode:" << endl;
     cout << "> ./sortArray.exe --single <dataType> <inputFilePath> <outputFilePath>" << endl;
@@ -25,8 +25,8 @@ void Help::displayHelp() {
     cout << "<arraySize> - specifies the number of elements in arrays that will be generated" << endl;
     cout << "<inputFilePath> - path to load the data from. First row should contain number of elements. Each element should be in a seperate row." << endl;
     cout << "<outputFilePath> - path to save the results to (Single - sorted Array, Benchmark - times of execution, Generate - array to be sorted)." << endl;
-    cout << "[?-arg sortingParameter] - modifies how the algorythm behaves. Available modifiers:" << endl <<
-        "CrazySort (percentage of failure [1-100]), QuickSort (pivot choosing method [0-2]), RadixSort (gap selection algorythm [0-1]) "<< endl;
-    cout << "[?-pre percentage] - allows for the generated data to be partially sorted. The percentage (in range between -100 and 100) specifies how many elements will be presorted (0 to size*percentage/100). Negative values will sort the array in descending order." << endl;;
+    cout << "[?-arg sortingParameter] - modifies how the algorythm behaves. Optional, defaults to most effective. Available modifiers:" << endl <<
+        "CrazySort (percentage of failure [1-100]), QuickSort (pivot choosing method [0-2]), ShellSort (gap selection algorythm [0-1]) "<< endl;
+    cout << "[?-pre percentage] - allows for the generated data to be partially sorted. Optional, defaults to 0. The percentage (in range between -100 and 100) specifies how many elements will be presorted (0 to size*percentage/100). Negative values will sort the array in descending order." << endl;;
     cout << "=========================================================" << endl;
 }

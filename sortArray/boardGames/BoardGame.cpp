@@ -1,21 +1,20 @@
-//
-// Created by lukas on 10.04.2025.
-//
-
 #include "BoardGame.h"
 #include <iostream>
+//Average Happiness calculation
 float BoardGame::averageHappiness() const {
-    float happinessFactor = BoardGame::happinessFactor*BoardGame::maxPlayers;
-    happinessFactor /= BoardGame::difficultyLevel;
-    happinessFactor /= BoardGame::playTime;
-    if (BoardGame::name.find("Cat")!=-1) {
-        happinessFactor*=3;
+    float avgHappiness = happinessFactor*maxPlayers;
+    avgHappiness /= difficultyLevel;
+    avgHappiness /= playTime;
+    if (name.find("Cat")!=-1) {
+        avgHappiness*=3;
     }
-    if (BoardGame::name.find("Dog")!=-1) {
-        happinessFactor/=3;
+    if (name.find("Dog")!=-1) {
+        avgHappiness/=3;
     }
-    return happinessFactor;
+    return avgHappiness;
 }
+
+//Default constructor required for memory allocation
 BoardGame::BoardGame() {
     BoardGame::name = new char[25];
     BoardGame::publisher = new char[25];
@@ -24,6 +23,7 @@ BoardGame::BoardGame() {
     BoardGame::difficultyLevel = 10;
     BoardGame::happinessFactor = 10;
 }
+//Constructor
 BoardGame::BoardGame(string name, string publisher, int maxPlayers, int playTime, int difficultyLevel, int happinessFactor) {
     BoardGame::name = name;
     BoardGame::publisher = publisher;
@@ -33,6 +33,7 @@ BoardGame::BoardGame(string name, string publisher, int maxPlayers, int playTime
     BoardGame::happinessFactor = happinessFactor;
 }
 
+//Operators
 bool BoardGame::operator<(const BoardGame& other) const {
     return averageHappiness()<other.averageHappiness();
 }

@@ -14,9 +14,11 @@ class BoardGame {
         int happinessFactor;
         float averageHappiness() const;
 
+        //Default constructor required for memory allocation
         BoardGame();
 
         BoardGame(string name, string publisher, int maxPlayers, int playTime, int difficultyLevel, int happinessFactor);
+
         bool operator<(const BoardGame& other) const;
         bool operator>(const BoardGame& other) const;
         bool operator==(const BoardGame& other) const;

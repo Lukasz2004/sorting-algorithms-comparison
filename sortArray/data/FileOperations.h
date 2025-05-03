@@ -1,7 +1,7 @@
 #include <fstream>
 #include <cstdlib>
 #include <sstream>
-
+#include <string>
 #include "../array/FunctionalArray.h"
 
 template <typename dataType> class FileOperations {
@@ -41,12 +41,15 @@ public:
         file.close();
         return;
     }
-    static dataType convertString(string input){};
+    static dataType convertString(string input){return new dataType;};
 
 };
 
 template <> int FileOperations<int>::convertString(string input) {
     return atoi(input.c_str());
+}
+template <> float FileOperations<float>::convertString(string input) {
+    return atof(input.c_str());
 }
 template <> string FileOperations<string>::convertString(string input) {
     return input;
@@ -77,5 +80,4 @@ template <> void FileOperations<BoardGame>::saveResultsFile(Array<BoardGame> *ar
         file << temp.name << "," << temp.publisher << ","  << temp.maxPlayers << ","  << temp.playTime << ","  << temp.difficultyLevel << ","  << temp.happinessFactor << endl;
     }
     file.close();
-    return;
 }
