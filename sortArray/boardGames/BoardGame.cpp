@@ -1,7 +1,7 @@
 #include "BoardGame.h"
 #include <iostream>
 //Average Happiness calculation
-float BoardGame::averageHappiness() const {
+float BoardGame::caluclateAverageHappiness() {
     float avgHappiness = happinessFactor*maxPlayers;
     avgHappiness /= difficultyLevel;
     avgHappiness /= playTime;
@@ -16,12 +16,13 @@ float BoardGame::averageHappiness() const {
 
 //Default constructor required for memory allocation
 BoardGame::BoardGame() {
-    BoardGame::name = new char[25];
-    BoardGame::publisher = new char[25];
+    BoardGame::name = "25charString25charStringg";
+    BoardGame::publisher = "25charString25charStringg";
     BoardGame::maxPlayers = 10;
     BoardGame::playTime = 480;
     BoardGame::difficultyLevel = 10;
     BoardGame::happinessFactor = 10;
+    BoardGame::averageScore = 10;
 }
 //Constructor
 BoardGame::BoardGame(string name, string publisher, int maxPlayers, int playTime, int difficultyLevel, int happinessFactor) {
@@ -31,22 +32,23 @@ BoardGame::BoardGame(string name, string publisher, int maxPlayers, int playTime
     BoardGame::playTime = playTime;
     BoardGame::difficultyLevel = difficultyLevel;
     BoardGame::happinessFactor = happinessFactor;
+    BoardGame::averageScore = caluclateAverageHappiness();
 }
 
 //Operators
 bool BoardGame::operator<(const BoardGame& other) const {
-    return averageHappiness()<other.averageHappiness();
+    return averageScore<other.averageScore;
 }
 
 bool BoardGame::operator>(const BoardGame &other) const {
-    return averageHappiness()>other.averageHappiness();
+    return averageScore>other.averageScore;
 }
 
 bool BoardGame::operator==(const BoardGame &other) const {
-    return averageHappiness()==other.averageHappiness();
+    return averageScore==other.averageScore;
 }
 
 ostream & operator<<(ostream &os, const BoardGame& obj) {
-    os << "\n-'" << obj.name << "' by " << obj.publisher << " (" << obj.maxPlayers << "," << obj.playTime << "," << obj.difficultyLevel<< ","  << obj.happinessFactor << "): " << obj.averageHappiness() << " points";
+    os << "\n-'" << obj.name << "' by " << obj.publisher << " (" << obj.maxPlayers << "," << obj.playTime << "," << obj.difficultyLevel<< ","  << obj.happinessFactor << "): " << obj.averageScore << " points";
     return os;
 }
