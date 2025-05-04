@@ -23,7 +23,7 @@ void Help::displayHelp() {
     << "[0] QuickSort, [1] InsertionSort, [2] HeapSort, [3] ShellSort, [4*] CrazySort" << endl
     << "*-only in Benchmark Mode" << endl;
     cout << "<arraySize> - specifies the number of elements in arrays that will be generated" << endl;
-    cout << "<inputFilePath> - path to load the data from. First row should contain number of elements. Each element should be in a seperate row." << endl;
+    cout << "<inputFilePath> - path to load the data from. First row should contain number of elements. Each element should be in a separate row." << endl;
     cout << "<outputFilePath> - path to save the results to (Single - sorted Array, Benchmark - times of execution, Generate - array to be sorted)." << endl;
     cout << "[?-arg sortingParameter] - modifies how the algorythm behaves. Optional, defaults to most effective. Available modifiers:" << endl <<
         "CrazySort (percentage of failure [1-100]), QuickSort (pivot choosing method [0-2]), ShellSort (gap selection algorythm [0-1]) "<< endl;

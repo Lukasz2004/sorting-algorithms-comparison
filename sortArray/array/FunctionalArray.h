@@ -15,7 +15,7 @@ template <typename type> class FunctionalArray: public Array<type> {
         }
         //Reverses array on positions <lIndex,rIndex>. Defaults to entire array
         void reverse(int lIndex=0, int rIndex=Array<type>::size-1) {
-            for (int i = lIndex; i <= rIndex; i++) {
+            for (int i = lIndex; i <= rIndex/2; i++) {
                 swap(i, rIndex-i);
             }
         }
@@ -36,25 +36,25 @@ template <typename type> class FunctionalArray: public Array<type> {
                 if (invertToMin==false) {
                     //Ascending Order
                     if (Array<type>::getElement(i) > Array<type>::getElement(i+1)) {
-                        throw runtime_error("[Functional Array]: ARRAY INCORECTLY SORTED");
+                        throw runtime_error("[Functional Array]: ARRAY INCORRECTLY SORTED");
                         return false;
                     }
                 }
                 else {
                     //Descending Order
                     if (Array<type>::getElement(i) < Array<type>::getElement(i+1)) {
-                        throw runtime_error("[Functional Array]: ARRAY INCORECTLY SORTED");
+                        throw runtime_error("[Functional Array]: ARRAY INCORRECTLY SORTED");
                         return false;
                     }
                 }
             }
             return true;
         }
-        //Sorts the array using algorythms provided in the parameters
+        //Sorts the array using algorithms provided in the parameters
         void sort(int sortingType=0, int param=-1) {
             switch (sortingType) {
                 case 0: //QuickSort
-                    if (param==-1){param=2;} //Default Param
+                    if (param==-1){param=0;} //Default Param
                     quickSort(0, this->Array<type>::size-1,param);
                     break;
                 case 1: //InsertionSort
@@ -80,7 +80,7 @@ template <typename type> class FunctionalArray: public Array<type> {
             if (percentage<-100||percentage>100) {
                 throw std::invalid_argument( "[Functional Array]: INVALID PRESORT PERCENTAGE" );
             }
-            quickSort(0, (this->Array<type>::size-1)*abs(percentage)/100,3);
+            quickSort(0, (this->Array<type>::size-1)*abs(percentage)/100,2);
             if (percentage<0) {
                 reverse(0,(this->Array<type>::size-1)*abs(percentage)/100);
             }
@@ -88,6 +88,7 @@ template <typename type> class FunctionalArray: public Array<type> {
         void quickSort(int lIndex, int rIndex, int pivotType) {
             int i = lIndex;
             int j = rIndex;
+            if (lIndex >= rIndex) return;
             type x;
             //Choose the pivot
             switch (pivotType) {
@@ -106,7 +107,6 @@ template <typename type> class FunctionalArray: public Array<type> {
                 default:
                     throw std::invalid_argument( "[Functional Array]: INVALID SORTING PARAM" );
             }
-
             //Find smaller and larger elements
             do
             {
@@ -157,7 +157,7 @@ template <typename type> class FunctionalArray: public Array<type> {
                             if (!event) { //If mistake didnt happen
                                 insertionSort(gap);
                             }
-                            else { //If mistake happened, randomise the gap
+                            else { //If mistake happened, randomize the gap
                                 insertionSort(rand()%(Array<type>::size-2)+1);
                             }
                         }

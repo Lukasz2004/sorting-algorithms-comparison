@@ -13,7 +13,7 @@ class BoardGame {
         int difficultyLevel;
         int happinessFactor;
         float averageScore;
-        float caluclateAverageHappiness();
+        float calculateAverageHappiness();
 
         //Default constructor required for memory allocation
         BoardGame();

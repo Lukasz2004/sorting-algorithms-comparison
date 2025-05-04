@@ -1,7 +1,7 @@
 #include "BoardGame.h"
 #include <iostream>
 //Average Happiness calculation
-float BoardGame::caluclateAverageHappiness() {
+float BoardGame::calculateAverageHappiness() {
     float avgHappiness = happinessFactor*maxPlayers;
     avgHappiness /= difficultyLevel;
     avgHappiness /= playTime;
@@ -32,7 +32,7 @@ BoardGame::BoardGame(string name, string publisher, int maxPlayers, int playTime
     BoardGame::playTime = playTime;
     BoardGame::difficultyLevel = difficultyLevel;
     BoardGame::happinessFactor = happinessFactor;
-    BoardGame::averageScore = caluclateAverageHappiness();
+    BoardGame::averageScore = calculateAverageHappiness();
 }
 
 //Operators
